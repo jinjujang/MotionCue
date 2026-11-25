@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MotionCue Supplementary</title><style>:root{color-scheme:dark;--bg:#000;--fg:#f5f5f7;--muted:#98989d;--line:rgba(255,255,255,.10);--card:#1c1c1e;--accent:#0a84ff;
+<title>MotionCue</title><style>:root{color-scheme:dark;--bg:#000;--fg:#f5f5f7;--muted:#98989d;--line:rgba(255,255,255,.10);--card:#1c1c1e;--accent:#0a84ff;
   --accent-soft:rgba(10,132,255,.18);--fill:rgba(118,118,128,.24);--fill2:rgba(118,118,128,.32);--thumb:#636366;--mark:rgba(255,214,10,.28);
   --shadow:0 1px 2px rgba(0,0,0,.5),0 8px 28px rgba(0,0,0,.4);
   --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",system-ui,"Segoe UI",Roboto,Arial,sans-serif}
@@ -303,15 +303,59 @@ section>p.lead{text-align:left;hyphens:none}
 .grid+details.prompt{margin:12px 0 0}
 .mfig{margin:0}
 .mfig img{display:block;width:100%;height:auto;border-radius:14px;background:#fff}
+
+/* authors + links (mock) */
+header.top .subtitle{margin-bottom:28px}
+.authors{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 22px;max-width:880px;margin:0 auto 10px;font-size:20px;font-weight:500;letter-spacing:-.01em;color:var(--fg)}
+.authors sup,.affils sup,.corr sup{font-size:.62em;margin-left:1px;color:var(--muted);vertical-align:.55em;line-height:0}
+.affils{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 26px;margin:0 auto 4px;font-size:16px;color:var(--muted)}
+.corr{margin:0 0 26px;font-size:13px;color:var(--muted)}
+.links{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:0 0 40px}
+.lbtn{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 20px;border-radius:999px;background:#f5f5f7;color:#000;font-size:16px;font-weight:600;text-decoration:none;transition:background .2s,transform .2s}
+.lbtn svg{width:19px;height:19px}
+.lbtn em{display:none;font-style:normal}
+.lbtn[href]:hover{background:#fff;transform:translateY(-1px)}
+.lbtn[aria-disabled="true"]{background:var(--fill);color:var(--muted);cursor:default;pointer-events:none}
+.lbtn[aria-disabled="true"] em{display:inline;font-size:12px;font-weight:500;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.08);color:var(--muted)}
+@media (max-width:760px){.authors{font-size:17px;gap:4px 16px}.affils{font-size:14px;flex-direction:column;align-items:center}}
+
+.bib{position:relative;background:var(--card);border-radius:14px;padding:22px 26px}
+.bib pre{margin:0;overflow-x:auto;font:14px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:#d1d1d6;white-space:pre}
+.bib .copy{position:absolute;top:12px;right:12px;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border:0;border-radius:999px;background:var(--fill);color:var(--fg);font:500 13px var(--sans);cursor:pointer}
+.bib .copy:hover{background:var(--fill2)}
+.bib .copy svg{width:15px;height:15px}
+.bib .copy.done{background:rgba(48,209,88,.2);color:#30d158}
+@media (max-width:760px){.bib{padding:52px 16px 16px}.bib pre{font-size:12px}}
+
+/* v19: tighter header spacing */
+header.top{padding-top:28px}
+h1{margin-bottom:10px}
+header.top .subtitle{margin-bottom:18px}
+.authors{margin-bottom:6px}
+.affils{margin-bottom:22px}
+.affils .corr{margin:0;font-size:inherit}
+h1{font-size:clamp(52px,8vw,92px)}
+.abstract p{line-height:1.55}
+.links{margin-bottom:26px}
+header.top .abstract{margin-bottom:18px}
+.abstract .abs-h{margin-bottom:10px}
+.hiw{margin-top:14px}
 </style></head>
 <body>
 
 
 
 <header class="top">
-  <p class="venue">Supplementary · CVPR 2027 Submission #38345</p>
   <h1>MotionCue</h1>
   <p class="subtitle">Training-Free Reference-Based Motion Control<br> without Freezing the Scene</p>
+  <div class="authors">
+    <span class="au">Jinju Jang<sup>1</sup></span><span class="au">Wonsik Shin<sup>1</sup></span><span class="au">Jimyeong Kim<sup>1</sup></span><span class="au">Yeonjin Chang<sup>1</sup></span><span class="au">Junhoo Lee<sup>2</sup></span><span class="au">Nojun Kwak<sup>1,†</sup></span>
+  </div>
+  <div class="affils"><span><sup>1</sup>Seoul National University</span><span><sup>2</sup>Korea Advanced Institute of Science &amp; Technology</span><span class="corr"><sup>†</sup>Corresponding author</span></div>
+  <div class="links">
+    <a class="lbtn" aria-disabled="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3v5h5M10 13h6M10 17h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>arXiv</span><em>Coming soon</em></a>
+    <a class="lbtn" aria-disabled="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Code</span><em>Coming soon</em></a>
+  </div>
 
   <div class="abstract"><p class="abs-h">Abstract</p><p>Motion control in image-to-video (I2V) generation should make an object follow a given motion without losing what the backbone already does well, a scene that moves naturally and responds to the prompt. However, existing methods that use a reference video made by moving only the object in the input image encode the entire reference into the initial noisy latent, and thus also convey its frozen scene, limiting scene dynamics and prompt responsiveness. <strong>We propose MotionCue, a training-free and mask-free method that decouples the intended motion from the frozen scene.</strong> In the latent space, MotionCue extracts the motion residual by subtracting a video that repeats the first reference frame, and injects it once as a cue right after the first denoising step. Since the content has only begun to form at this point, even a small residual acts as a strong cue that guides the trajectory early in sampling, while the rest of the generation is left to the model. To evaluate whether the scene remains responsive under motion control, we construct RISER, a benchmark of scenes whose surroundings react to the moving object, paired with prompts of varying dynamics. On RISER, which reveals how much motion control reduces what the backbone generates, <strong>MotionCue follows the reference trajectory while keeping scene dynamics, prompt responsiveness, and video quality close to those of the backbone without motion control.</strong></p></div>
   <nav class="toc">
@@ -421,8 +465,12 @@ section>p.lead{text-align:left;hyphens:none}
   <p class="lead">MotionCue&nbsp;carries over to&nbsp;HunyuanVideo-1.5 with&nbsp;the&nbsp;same training-free procedure, and&nbsp;only the&nbsp;cue&nbsp;strength is rescaled&nbsp;once&nbsp;to&nbsp;β&nbsp;=&nbsp;0.03.</p>
   <figure class="teaser rows" data-sync><div class="teaser-head"><p class="teaser-title">HunyuanVideo-1.5 + MotionCue</p><div class="ctl"><button class="b-play">Pause</button><button class="b-restart">Restart</button><button class="b-rate" data-rate="0.5" title="Half speed">0.5×</button><button class="b-rate on" data-rate="1" title="Default speed">1×</button><button class="b-rate" data-rate="2" title="Double speed">2×</button></div></div><div class="trow"><div class="trow-title">A dog herding sheep</div><div class="trow-grid"><div class="tcell"><div class="tlab">Reference</div><video src="videos/hy_sheep__reference.mp4" muted loop playsinline preload="none"></video></div><div class="tcell"><div class="tlab">Backbone</div><video src="videos/hy_sheep__backbone.mp4" muted loop playsinline preload="none"></video></div><div class="tcell ours"><div class="tlab">MotionCue</div><video src="videos/hy_sheep__motioncue.mp4" muted loop playsinline preload="none"></video></div></div></div><div class="trow"><div class="trow-title">A tennis player</div><div class="trow-grid"><div class="tcell"><div class="tlab">Reference</div><video src="videos/hy_tennis__reference.mp4" muted loop playsinline preload="none"></video></div><div class="tcell"><div class="tlab">Backbone</div><video src="videos/hy_tennis__backbone.mp4" muted loop playsinline preload="none"></video></div><div class="tcell ours"><div class="tlab">MotionCue</div><video src="videos/hy_tennis__motioncue.mp4" muted loop playsinline preload="none"></video></div></div></div><div class="trow"><div class="trow-title">A boat skirting a whirlpool</div><div class="trow-grid"><div class="tcell"><div class="tlab">Reference</div><video src="videos/hy_boat__reference.mp4" muted loop playsinline preload="none"></video></div><div class="tcell"><div class="tlab">Backbone</div><video src="videos/hy_boat__backbone.mp4" muted loop playsinline preload="none"></video></div><div class="tcell ours"><div class="tlab">MotionCue</div><video src="videos/hy_boat__motioncue.mp4" muted loop playsinline preload="none"></video></div></div></div></figure>
 </section>
+<section id="citation">
+  <h2>Citation</h2>
+  <div class="bib"><button class="copy" type="button" aria-label="Copy BibTeX"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16 5.5A2.5 2.5 0 0 0 13.5 3h-8A2.5 2.5 0 0 0 3 5.5v8A2.5 2.5 0 0 0 5.5 16" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Copy</span></button><pre><code id="bibtex"></code></pre></div>
+</section>
 </main>
-<footer><p>Videos are re-encoded at reduced resolution to fit the supplementary size limit.</p></footer>
+<footer><p>Videos are re-encoded at reduced resolution.</p></footer>
 <script>(function(){
   document.querySelectorAll('.toggle').forEach(h=>{
     const btns=[...h.querySelectorAll('.seg button')];
@@ -703,4 +751,24 @@ section>p.lead{text-align:left;hyphens:none}
   slider.max=String(N-1); slider.addEventListener('input',()=>{ touched(); svg.classList.remove('idle'); setF(parseFloat(slider.value)); });
   setF(0);
 })();
-</script></body></html>
+</script><script>
+/* ===== Links: fill these in later ===== */
+const ARXIV_ID = "";   // e.g. "2612.01234"
+const CODE_URL = "";   // e.g. "https://github.com/..."
+const YEAR = "2026";
+/* ===================================== */
+(function(){
+  const set=(i,url)=>{const a=document.querySelectorAll('.links .lbtn')[i]; if(url){a.href=url;a.target="_blank";a.rel="noopener";a.removeAttribute('aria-disabled');}};
+  set(0, ARXIV_ID && "https://arxiv.org/abs/"+ARXIV_ID); set(1, CODE_URL);
+  const T="MotionCue: Training-Free Reference-Based Motion Control without Freezing the Scene";
+  const A="Jang, Jinju and Shin, Wonsik and Kim, Jimyeong and Chang, Yeonjin and Lee, Junhoo and Kwak, Nojun";
+  const bib = ARXIV_ID
+   ? `@article{jang${YEAR}motioncue,\n  title   = {${T}},\n  author  = {${A}},\n  journal = {arXiv preprint arXiv:${ARXIV_ID}},\n  year    = {${YEAR}}\n}`
+   : `@misc{jang${YEAR}motioncue,\n  title  = {${T}},\n  author = {${A}},\n  year   = {${YEAR}}\n}`;
+  document.getElementById('bibtex').textContent=bib;
+  const b=document.querySelector('.bib .copy');
+  b.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(bib);}catch(e){const r=document.createRange();r.selectNodeContents(document.getElementById('bibtex'));const sel=getSelection();sel.removeAllRanges();sel.addRange(r);document.execCommand('copy');sel.removeAllRanges();}
+    b.classList.add('done');b.querySelector('span').textContent='Copied';setTimeout(()=>{b.classList.remove('done');b.querySelector('span').textContent='Copy';},1600);});
+})();
+</script>
+</body></html>
