@@ -1,1 +1,706 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MotionCue Supplementary</title><style>:root{color-scheme:dark;--bg:#000;--fg:#f5f5f7;--muted:#98989d;--line:rgba(255,255,255,.10);--card:#1c1c1e;--accent:#0a84ff;
+  --accent-soft:rgba(10,132,255,.18);--fill:rgba(118,118,128,.24);--fill2:rgba(118,118,128,.32);--thumb:#636366;--mark:rgba(255,214,10,.28);
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 8px 28px rgba(0,0,0,.4);
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",system-ui,"Segoe UI",Roboto,Arial,sans-serif}
+*{box-sizing:border-box}
+sub{font-size:.72em;line-height:0;vertical-align:-.2em}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.47 var(--sans);letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
+header.top,main,footer{max-width:1120px;margin:0 auto;padding:0 20px}
+header.top{padding-top:64px;padding-bottom:8px;text-align:center}
+.venue{margin:0 0 12px;font-size:15px;font-weight:600;letter-spacing:.08em;color:var(--muted)}
+h1{font-weight:700;font-size:clamp(52px,9vw,104px);line-height:1;letter-spacing:-.045em;margin:0 auto 16px}
+.subtitle{margin:0 auto 46px;font-size:clamp(20px,2.7vw,34px);font-weight:600;line-height:1.25;letter-spacing:-.02em;color:var(--muted);text-wrap:balance}
+.abstract{max-width:1080px;margin:0 auto 40px;text-align:left}
+.abstract .abs-h{margin:0 0 14px;text-align:center;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.abstract strong{font-weight:600;color:#fff}
+.abstract p{margin:0;font-size:19px;line-height:1.62;color:#d1d1d6;text-align:justify;text-wrap:pretty}
+.toc{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 0 8px}
+.toc a{color:var(--fg);text-decoration:none;font-size:14px;font-weight:500;background:var(--fill);padding:6px 14px;border-radius:980px;transition:background .2s}
+.toc a:hover{background:var(--fill2)}
+/* ---------- teaser ---------- */
+.teaser{background:var(--card);border-radius:28px;box-shadow:var(--shadow);padding:22px 22px 20px;margin:28px 0 8px}
+.teaser-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.teaser-title{margin:0;font-size:21px;font-weight:600;letter-spacing:-.02em}
+.trow+.trow{margin-top:16px}
+.trow-title{font-size:15px;font-weight:600;margin:0 0 8px 2px}
+.trow-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.tcell{min-width:0}
+.tcell video{aspect-ratio:3/2;object-fit:contain;border-radius:14px;background:var(--fill)}
+.tcell.ours video{box-shadow:0 0 0 2.5px var(--accent)}
+.teaser-cap{margin:16px 2px 0;font-size:14px;line-height:1.5;color:var(--muted)}
+/* ---------- prompt switch ---------- */
+.toggle{margin:6px 0 18px;background:var(--card);border-radius:28px;box-shadow:var(--shadow);padding:20px 20px 18px}
+.switch-row{display:flex;flex-direction:column;align-items:center;gap:8px;margin:2px 0 20px}
+.toggle .cmp-head{margin-bottom:10px}
+.switch-cta{margin:0;font-size:14px;font-weight:600;color:var(--accent);letter-spacing:-.005em}
+.switch-cta::after{content:"";display:inline-block;width:6px;height:6px;margin-left:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:translateY(-3px) rotate(45deg);animation:bob 1.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(-3px) rotate(45deg)}50%{transform:translateY(1px) rotate(45deg)}}
+.seg.big{min-width:320px;border-radius:13px;padding:3px}
+.seg.big button{font-size:17px;padding:10px 28px;border-radius:10px}
+.seg.big .thumb{top:3px;left:3px;width:calc(50% - 3px);height:calc(100% - 6px);border-radius:10px}
+.seg.hint{animation:glow 2.6s ease-out infinite}
+.toggle[data-cond="normal"] .seg.hint .thumb{animation:nudge 2.6s cubic-bezier(.3,1.25,.6,1) infinite}
+@keyframes glow{0%,55%{box-shadow:0 0 0 0 rgba(0,122,255,.45)}90%,100%{box-shadow:0 0 0 12px rgba(0,122,255,0)}}
+@keyframes nudge{0%,55%,100%{transform:translateX(0)}66%{transform:translateX(16%)}78%{transform:translateX(0)}86%{transform:translateX(6%)}94%{transform:translateX(0)}}
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;background:var(--fill);border-radius:10px;padding:2px;min-width:240px;user-select:none}
+.seg button{position:relative;z-index:1;font:600 15px var(--sans);letter-spacing:-.01em;color:var(--fg);background:none;border:0;padding:7px 18px;border-radius:8px;cursor:pointer;transition:opacity .15s}
+.seg button[aria-checked="false"]{opacity:.6}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.seg .thumb{position:absolute;z-index:0;top:2px;left:2px;width:calc(50% - 2px);height:calc(100% - 4px);background:var(--thumb);border-radius:8px;
+  box-shadow:0 3px 8px rgba(0,0,0,.12),0 3px 1px rgba(0,0,0,.04),0 0 0 .5px rgba(0,0,0,.04);transition:transform .2s cubic-bezier(.3,1.25,.6,1)}
+.toggle[data-cond="dynamic"] .seg .thumb{transform:translateX(100%)}
+.tgrid{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:8px}
+.tlab{font-size:13px;font-weight:600;color:var(--muted);margin:0 0 6px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tcol.ours .tlab,.tcell.ours .tlab{color:var(--accent)}
+.tcol.ours .tlab::after,.tcell.ours .tlab::after{content:" ●";font-size:9px;vertical-align:2px}
+.stack{position:relative;aspect-ratio:var(--ar,3/2);border-radius:12px;overflow:hidden;background:var(--fill)}
+.tcol.ours .stack{box-shadow:0 0 0 2.5px var(--accent)}
+.layer{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .12s linear;border-radius:0}
+.layer[data-cond="both"],.toggle[data-cond="normal"] .layer[data-cond="normal"],.toggle[data-cond="dynamic"] .layer[data-cond="dynamic"]{opacity:1}
+.layer.ph{display:grid;place-items:center;color:var(--muted);font-size:13px}
+.tprompt{display:grid;margin:14px 0 0;background:var(--fill);border-radius:14px;padding:12px 16px}
+.tprompt p{grid-area:1/1;margin:0;font-size:15px;line-height:1.5;transition:opacity .12s linear}
+.toggle[data-cond="normal"] .tprompt p[data-cond="dynamic"],.toggle[data-cond="dynamic"] .tprompt p[data-cond="normal"]{opacity:0;pointer-events:none}
+.tprompt mark{background:var(--mark);color:inherit;border-radius:4px;padding:0 2px}
+/* ---------- sections ---------- */
+section:not(.teaser):not(.intro):not(.tryit){padding:52px 0 8px}
+h2{font-weight:700;font-size:32px;letter-spacing:-.025em;line-height:1.12;margin:0 0 10px}
+h3{font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin:30px 0 10px}
+section:not(.teaser)>p{max-width:820px;margin:0 0 16px;color:var(--fg)}
+section>p.lead{max-width:none;margin:0 0 22px;font-size:18px;line-height:1.6;color:#d1d1d6;text-align:justify;text-wrap:pretty;hyphens:auto}
+figure.cmp{margin:0 0 18px;background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:16px 16px 18px}
+.cmp-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+h4{margin:0;font-size:17px;font-weight:600;letter-spacing:-.015em}
+.ctl{display:flex;flex-wrap:wrap;gap:6px;flex-shrink:0}
+.ctl button{font:500 13px var(--sans);color:var(--fg);background:var(--fill);border:0;border-radius:980px;padding:6px 13px;cursor:pointer;transition:background .2s}
+.ctl button:hover{background:var(--fill2)}
+.ctl button.on{background:var(--accent);color:#fff}
+details.prompt{margin:0 0 12px;font-size:14px;color:var(--muted)}
+details.prompt summary{cursor:pointer;width:max-content;font-weight:500}
+details.prompt p{margin:8px 0 0;background:var(--fill);border-radius:12px;padding:10px 14px;color:var(--fg)}
+.grid{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:8px}
+.cell{min-width:0}
+.lab{font-size:13px;font-weight:600;color:var(--muted);margin:0 0 6px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell.ours .lab{color:var(--accent)}
+video{display:block;width:100%;height:auto;border-radius:12px;background:transparent}
+.grid video{aspect-ratio:3/2;object-fit:contain}
+.cell.ours video{box-shadow:0 0 0 2.5px var(--accent)}
+.ph{aspect-ratio:3/2;border-radius:12px;display:grid;place-items:center;color:var(--muted);font-size:13px;background:var(--fill)}
+.fcap{margin:12px 2px 0;font-size:14px;line-height:1.5;color:var(--muted)}
+.cap{font-size:15px;color:var(--muted);margin:-6px 0 22px!important}
+footer{padding:32px 20px 64px;color:var(--muted);font-size:13px;text-align:center}
+@media (prefers-reduced-motion:reduce){.seg.hint,.seg.hint .thumb,.switch-cta::after,.picks.hint .pick,.picks.hint .pick img{animation:none!important}}
+@media (max-width:760px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .trow-grid{gap:6px}
+  .cmp-head{flex-wrap:wrap}
+  .teaser,.toggle{border-radius:22px;padding:14px}
+  .seg.big{min-width:0;width:100%}
+  .abstract p{font-size:16px;text-align:left}
+}
+/* ---------- scene picker ---------- */
+.picks{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin:0 0 14px}
+.pick{position:relative;display:block;padding:0;border:0;background:var(--card);border-radius:16px;overflow:hidden;cursor:pointer;text-align:left;color:var(--fg);
+  box-shadow:0 0 0 1px var(--line);transition:box-shadow .2s,transform .2s;font:inherit}
+.pick img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover;opacity:.55;transition:opacity .2s}
+.pick:hover img{opacity:.85}
+.pick[aria-selected="true"]{box-shadow:0 0 0 2.5px var(--accent)}
+.pick[aria-selected="true"] img{opacity:1}
+.pick:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* invite a click: unselected scenes glow one after another until the first pick */
+.picks.hint .pick[aria-selected="false"]{animation:pickGlow 2.6s ease-out infinite}
+.picks.hint .pick[aria-selected="false"] img{animation:pickLit 2.6s ease-out infinite}
+.picks.hint .pick:nth-child(2),.picks.hint .pick:nth-child(2) img{animation-delay:.15s}
+.picks.hint .pick:nth-child(3),.picks.hint .pick:nth-child(3) img{animation-delay:.3s}
+.picks.hint .pick:nth-child(4),.picks.hint .pick:nth-child(4) img{animation-delay:.45s}
+.picks.hint .pick:nth-child(5),.picks.hint .pick:nth-child(5) img{animation-delay:.6s}
+.picks.hint .pick:nth-child(6),.picks.hint .pick:nth-child(6) img{animation-delay:.75s}
+@keyframes pickGlow{0%,50%{box-shadow:0 0 0 1px var(--line),0 0 0 0 rgba(0,122,255,.5)}88%,100%{box-shadow:0 0 0 1px var(--line),0 0 0 9px rgba(0,122,255,0)}}
+@keyframes pickLit{0%,50%{opacity:.55}64%{opacity:.95}90%,100%{opacity:.55}}
+.pname{display:block;padding:8px 10px 10px;font-size:13px;font-weight:600;line-height:1.3}
+.ptag{position:absolute;top:8px;left:8px;font-size:11px;font-weight:600;background:rgba(0,0,0,.6);color:#fff;border-radius:980px;padding:2px 8px}
+.pane{display:none}.pane.on{display:block}
+/* ---------- method diagram ---------- */
+.method{margin:6px 0 18px;background:var(--card);border-radius:28px;box-shadow:var(--shadow);padding:18px 20px 18px}
+.msteps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 16px}
+.mstep{background:none;border:0;padding:0;color:var(--muted);font:600 14px var(--sans);text-align:left;cursor:pointer}
+.mstep i{display:block;height:3px;border-radius:2px;background:var(--fill2);overflow:hidden;margin:0 0 8px}
+.mstep b{display:block;height:100%;background:var(--fg);transform-origin:left;transform:scaleX(0)}
+.method[data-step="0"] .mstep[data-s="0"],.method[data-step="1"] .mstep[data-s="1"],.method[data-step="2"] .mstep[data-s="2"]{color:var(--fg)}
+.mstep:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:4px}
+.mrow{display:grid;align-items:center;gap:10px;transition:opacity .35s}
+.mrow.eq{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr)}
+.mrow.tl{grid-template-columns:minmax(0,.8fr) minmax(0,2.4fr) minmax(0,.8fr);margin-top:18px}
+.mcell{min-width:0}
+.mcell video,.mcell img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:12px;background:var(--fill)}
+.mcell.ours video{box-shadow:0 0 0 2.5px var(--accent)}
+.mcell .lab var,.tlabels var{font-style:italic;font-family:"Times New Roman",Times,serif;font-size:1.08em}
+.op{font-size:30px;font-weight:300;color:var(--muted);padding-top:20px}
+.track{position:relative;padding-top:4px}
+.tlabels{position:relative;height:20px;font-size:12px;font-weight:600;color:var(--muted)}
+.tlabels span{position:absolute;top:0;white-space:nowrap}
+.tlabels .t1{left:2.44%;margin-left:-1px;color:var(--accent);padding-left:8px;border-left:1.5px solid var(--accent);line-height:20px}
+.tbelow{display:flex;justify-content:space-between;margin-top:10px;font-size:12px;font-weight:600;color:var(--muted)}
+.ticks{position:relative;display:flex;justify-content:space-between;align-items:flex-end;height:34px;margin-top:4px}
+.ticks i{display:block;width:2px;height:14px;border-radius:1px;background:var(--fill2);transition:background .2s}
+.ticks i.k0{height:20px;background:var(--muted)}
+.ticks i.k1{height:34px;width:3px;background:var(--accent)}
+.ticks i.done{background:var(--muted)}
+.ticks .head{position:absolute;bottom:-6px;left:0;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:var(--fg);box-shadow:0 0 0 3px rgba(255,255,255,.15)}
+.ticks .drop{position:absolute;left:2.44%;bottom:40px;width:18px;height:18px;margin-left:-8px;border-radius:50%;background:var(--accent);opacity:0}
+.method[data-step="1"] .ticks .drop{animation:drop 1.4s .5s cubic-bezier(.4,0,.6,1) both}
+@keyframes drop{0%{opacity:0;transform:translateY(-36px) scale(.6)}30%{opacity:1}70%{opacity:1;transform:translateY(22px) scale(1)}100%{opacity:0;transform:translateY(26px) scale(1.8)}}
+.tnote{margin-top:12px;font-size:13px;color:var(--muted)}
+.method[data-step="0"] .mrow.tl{opacity:.3}
+.method[data-step="1"] .mrow.eq .mcell:not(.ours),.method[data-step="1"] .mrow.eq .op{opacity:.35}
+.method[data-step="2"] .mrow.eq{opacity:.3}
+.method .mrow.eq .mcell,.method .mrow.eq .op{transition:opacity .35s}
+.mcap{display:grid;margin:16px 0 0;background:var(--fill);border-radius:14px;padding:12px 16px}
+.mcap p{grid-area:1/1;margin:0;font-size:15px;line-height:1.5;opacity:0;transition:opacity .3s}
+.method[data-step="0"] .mcap p[data-s="0"],.method[data-step="1"] .mcap p[data-s="1"],.method[data-step="2"] .mcap p[data-s="2"]{opacity:1}
+@media (max-width:760px){
+  .picks{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .method{border-radius:22px;padding:14px}
+  .mrow.eq{gap:4px}.op{font-size:20px}
+  .mrow.tl{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .mrow.tl .track{grid-column:1/-1;grid-row:1}
+  .mstep span{font-size:12px}
+}
+@media (prefers-reduced-motion:reduce){.method[data-step="1"] .ticks .drop{animation:none;opacity:1}}
 
+/* overview figure with the current stage highlighted */
+.ovw{position:relative;background:#fff;border-radius:16px;overflow:hidden;margin:0 0 18px}
+.ovw img{display:block;width:100%;height:auto}
+.ovw svg{position:absolute;inset:0;width:100%;height:100%}
+.ovw .dim{fill:rgba(20,20,22,.55)}
+.ovw .hole{fill:#000;fill-opacity:0;transition:fill-opacity .35s}
+.ovw .hl{fill:none;stroke:var(--accent);stroke-width:5;opacity:0;transition:opacity .35s}
+.method[data-step="0"] .hole[data-s="0"],.method[data-step="1"] .hole[data-s="1"],.method[data-step="2"] .hole[data-s="2"]{fill-opacity:1}
+.method[data-step="0"] .hl[data-s="0"],.method[data-step="1"] .hl[data-s="1"],.method[data-step="2"] .hl[data-s="2"]{opacity:1}
+.m-lat{display:block;width:100%;aspect-ratio:3/2;border-radius:12px;background:var(--fill)}
+.illu{font-style:normal;font-weight:500;font-size:11px;color:var(--muted);background:var(--fill);border-radius:980px;padding:1px 7px;margin-left:4px}
+.method .fcap{margin-top:12px}
+.teaser.rows{margin:6px 0 18px;display:block}
+@media (max-width:760px){section>p.lead{font-size:16px;text-align:left}}
+.method[data-step="1"] .mrow.tl .mcell.ours{opacity:.35;transition:opacity .35s}
+/* ---------- intro (always dark) ---------- */
+.intro{--mag:#e824c4;--blue:#0a84ff;background:#000;color:#f5f5f7;min-height:100svh;display:flex;flex-direction:column;align-items:center;padding:22px 20px 34px;position:relative;overflow:hidden}
+.intro-bar{width:100%;max-width:1200px;display:flex;align-items:center;gap:14px}
+.intro-bar .wm{font-weight:700;font-size:19px;letter-spacing:-.02em}
+.intro-bar .sub{font-size:13px;color:#8e8e93}
+.prog{margin-left:auto;display:flex;gap:6px;width:min(380px,42vw)}
+.pseg{flex:1;min-width:0;background:none;border:0;padding:6px 0;margin:0;cursor:pointer;text-align:left;font:inherit;color:#8e8e93}
+.pseg i{display:block;height:3px;border-radius:2px;background:rgba(255,255,255,.22);overflow:hidden}
+.pseg b{display:block;height:100%;width:100%;background:#f5f5f7;transform:scaleX(0);transform-origin:left}
+.pseg span{display:block;margin-top:7px;font-size:12px;font-weight:500;letter-spacing:-.005em;white-space:nowrap;transition:color .2s}
+.pseg.on span{color:#f5f5f7}
+.pseg:hover span{color:#d1d1d6}
+.stage{position:relative;width:100%;max-width:1200px;height:min(60vh,600px);margin:22px 0 0}
+.screen{position:absolute;inset:0;transition:opacity .5s ease}
+.screen.off{opacity:0;pointer-events:none}
+.screen.single .frame{position:absolute;top:0;left:50%;transform:translateX(-50%);height:100%;transition:opacity .45s ease}
+#fr-ref{z-index:1}
+#fr-ours{z-index:0}
+.frame{position:relative;border-radius:22px;overflow:hidden;background:#111;aspect-ratio:3/2}
+.frame>img,.frame>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;border-radius:0;background:transparent}
+.frame>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.frame.off{opacity:0}
+.spin{position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;opacity:0;transition:opacity .2s;animation:spin .8s linear infinite}
+.frame.loading .spin{opacity:1}
+.tap{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.92);display:flex;align-items:center;gap:10px;padding:12px 22px 12px 18px;border:0;border-radius:999px;
+  background:rgba(0,0,0,.5);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:#fff;font:600 17px var(--sans);cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s}
+.tap::before{content:"";width:0;height:0;border-left:14px solid #fff;border-top:9px solid transparent;border-bottom:9px solid transparent}
+.frame.blocked .tap{opacity:1;pointer-events:auto;transform:translate(-50%,-50%)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pill{position:absolute;left:16px;top:16px;font-size:14px;font-weight:500;padding:6px 14px;border-radius:999px;background:rgba(0,0,0,.45);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:#fff;transition:opacity .3s}
+.screen.pair{display:flex;justify-content:center;align-items:center;gap:22px}
+.screen.pair .col{display:flex;flex-direction:column;flex:1.5 1 0;min-width:0}
+.screen.pair .frame{width:100%;height:auto}
+.screen.pair .lab{font-size:15px;font-weight:600;color:#8e8e93;margin:0 0 10px 2px}
+.screen.pair .col.ours .lab{color:var(--blue)}
+.screen.pair .col.ours .frame{box-shadow:0 0 0 3px var(--blue)}
+.words{position:relative;height:150px;width:100%;max-width:1100px;margin-top:26px;text-align:center}
+.words .w{position:absolute;inset:0;opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease}
+.words .w.on{opacity:1;transform:none}
+.words h2{margin:0;font-size:clamp(48px,8vw,96px);font-weight:700;letter-spacing:-.04em;line-height:1}
+.words p{margin:14px 0 0;font-size:clamp(16px,2vw,21px);color:#98989d}
+.skip{margin-top:auto;color:#f5f5f7;text-decoration:none;font-size:15px;font-weight:500;background:rgba(255,255,255,.12);padding:9px 18px;border-radius:999px;transition:background .2s}
+.skip:hover{background:rgba(255,255,255,.2)}
+/* svg overlay */
+.ol{fill:none;stroke:#fff;stroke-width:3;stroke-dasharray:10 8;stroke-linecap:round;opacity:.95}
+.trail{fill:none;stroke:var(--mag);stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
+.full{fill:none;stroke:var(--mag);stroke-width:4;stroke-dasharray:2 12;stroke-linecap:round;opacity:.65}
+.tdot{fill:rgba(255,255,255,.45);stroke:#fff;stroke-width:3}
+.tdot-halo{fill:rgba(255,255,255,.16)}
+.cursor path{fill:#fff;stroke:#111;stroke-width:1.3;stroke-linejoin:round}
+.cursor{filter:drop-shadow(0 2px 3px rgba(0,0,0,.35));transition:opacity .25s}
+.cursor.hint{animation:blink 1.3s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+.cursor.gone{opacity:0;animation:none}
+/* ---------- try it ---------- */
+.tryit{max-width:1180px;margin:0 auto;padding:72px 20px 40px;text-align:center}
+.tryit h2{font-size:clamp(40px,6vw,64px);font-weight:700;letter-spacing:-.035em;margin:0}
+.tryit>p.lead{margin:10px auto 26px;color:var(--muted);font-size:19px;max-width:640px}
+.try-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:end;text-align:left}
+.try-col .lab{font-size:15px;font-weight:600;color:var(--muted);margin:0 0 8px 2px}
+.try-col.ours .lab{color:var(--accent)}
+.try-col.ours .frame{box-shadow:0 0 0 3px var(--accent)}
+.try-col .frame{width:100%;box-shadow:var(--shadow)}
+#try-svg{touch-action:none;cursor:grab}
+#try-svg.drag{cursor:grabbing}
+.try-slider{display:flex;align-items:center;gap:14px;max-width:560px;margin:24px auto 0;color:var(--muted);font-size:14px}
+.try-slider input{flex:1;-webkit-appearance:none;appearance:none;height:22px;margin:0;background:transparent;cursor:pointer;--p:0%}
+.try-slider input::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:linear-gradient(to right,rgba(255,255,255,.85) var(--p),rgba(255,255,255,.16) var(--p))}
+.try-slider input::-moz-range-track{height:4px;border-radius:2px;background:linear-gradient(to right,rgba(255,255,255,.85) var(--p),rgba(255,255,255,.16) var(--p))}
+.try-slider input::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;margin-top:-9px;border-radius:50%;background:#fff;border:0;box-shadow:0 2px 6px rgba(0,0,0,.45)}
+.try-slider input::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:0;box-shadow:0 2px 6px rgba(0,0,0,.45)}
+.try-slider input:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:4px}
+@media (max-width:760px){
+  .stage{height:auto;aspect-ratio:3/2;margin-top:28px}
+  .screen.single .frame{height:100%;width:100%}
+  .intro-bar .sub{display:none}
+  .subtitle br{display:none}
+  .intro-bar{flex-wrap:wrap;row-gap:8px}
+  .prog{width:100%;margin-left:0}
+  .pill{font-size:12px;left:10px;top:10px;padding:5px 11px}
+  .screen.pair{align-items:center}
+  .screen.pair{gap:8px}
+  .screen.pair .lab{font-size:12px}
+  .words{height:130px}
+  .try-grid{grid-template-columns:1fr}
+}
+.tryit{--mag:#e824c4}
+@media (prefers-reduced-motion:reduce){.cursor.hint{animation:none}.words .w,.screen,.frame{transition:none}}
+
+/* v4 */
+header.top{padding-top:40px;padding-bottom:28px}
+header.top .subtitle{margin-bottom:30px}
+header.top .abstract{margin-bottom:24px}
+.intro-bar{justify-content:center}
+.intro-bar .prog{margin-left:0}
+.hiw{display:inline-block;margin:18px 0 0;color:#f5f5f7;text-decoration:none;font-size:15px;font-weight:500;background:rgba(255,255,255,.12);padding:9px 18px;border-radius:999px;transition:background .2s}
+.hiw:hover{background:rgba(255,255,255,.2)}
+.intro .pill{display:none}
+.pick-cta{margin:0 0 12px}
+section>p.lead{text-align:left;hyphens:none}
+.tryit>p.lead{max-width:none;text-align:center}
+/* more room above "Try it yourself", and a gentle pulse on the two scroll buttons */
+.intro .words{height:196px;margin-bottom:22px}
+@media (max-width:760px){.intro .words{height:184px}}
+@media (min-width:761px){.intro .stage{height:clamp(240px,calc(100svh - 400px),600px)}}
+@keyframes btnPulse{0%,100%{background:rgba(255,255,255,.12);box-shadow:0 0 0 0 rgba(10,132,255,0)}50%{background:rgba(255,255,255,.24);box-shadow:0 0 0 7px rgba(10,132,255,.22)}}
+@keyframes arrowBob{0%,100%{transform:translateY(0)}50%{transform:translateY(3px)}}
+.hiw,.skip{animation:btnPulse 1.8s ease-in-out infinite}
+.hiw:hover,.skip:hover{animation:none;background:rgba(255,255,255,.26)}
+.hiw .arr,.skip .arr{display:inline-block;animation:arrowBob 1.8s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.hiw,.skip,.hiw .arr,.skip .arr{animation:none}}
+.words p{text-wrap:balance}
+.fcap,details.prompt p{text-wrap:pretty}
+.grid+details.prompt{margin:12px 0 0}
+.mfig{margin:0}
+.mfig img{display:block;width:100%;height:auto;border-radius:14px;background:#fff}
+</style></head>
+<body>
+
+
+
+<header class="top">
+  <p class="venue">Supplementary · CVPR 2027 Submission #38345</p>
+  <h1>MotionCue</h1>
+  <p class="subtitle">Training-Free Reference-Based Motion Control<br> without Freezing the Scene</p>
+
+  <div class="abstract"><p class="abs-h">Abstract</p><p>Motion control in image-to-video (I2V) generation should make an object follow a given motion without losing what the backbone already does well, a scene that moves naturally and responds to the prompt. However, existing methods that use a reference video made by moving only the object in the input image encode the entire reference into the initial noisy latent, and thus also convey its frozen scene, limiting scene dynamics and prompt responsiveness. <strong>We propose MotionCue, a training-free and mask-free method that decouples the intended motion from the frozen scene.</strong> In the latent space, MotionCue extracts the motion residual by subtracting a video that repeats the first reference frame, and injects it once as a cue right after the first denoising step. Since the content has only begun to form at this point, even a small residual acts as a strong cue that guides the trajectory early in sampling, while the rest of the generation is left to the model. To evaluate whether the scene remains responsive under motion control, we construct RISER, a benchmark of scenes whose surroundings react to the moving object, paired with prompts of varying dynamics. On RISER, which reveals how much motion control reduces what the backbone generates, <strong>MotionCue follows the reference trajectory while keeping scene dynamics, prompt responsiveness, and video quality close to those of the backbone without motion control.</strong></p></div>
+  <nav class="toc">
+    <a href="#residual">1. Motivation</a><a href="#method">2. Method</a><a href="#results">3. Comparison</a>
+    <a href="#prompt">4. Prompt Response</a><a href="#ablation">5. Ablations</a><a href="#hunyuan">6. Other Backbone</a>
+  </nav>
+  <a class="hiw" href="#intro">How it works <span class="arr">↓</span></a>
+</header>
+
+<section class="intro" id="intro">
+  <div class="intro-bar">
+    <div class="prog"><button class="pseg" aria-label="Cut & drag"><i><b></b></i><span>Cut & drag</span></button><button class="pseg" aria-label="MotionCue"><i><b></b></i><span>MotionCue</span></button><button class="pseg" aria-label="Compare"><i><b></b></i><span>Compare</span></button></div></div>
+  <div class="stage">
+    <div class="screen single">
+      <div class="frame" id="fr-ref">
+        <img src="intro/plate.jpg" alt="">
+        <svg viewBox="0 0 720 480" aria-hidden="true">
+          <defs><mask id="mk-a" maskUnits="userSpaceOnUse" x="-60" y="-60" width="840" height="600"><rect x="-60" y="-60" width="840" height="600" fill="#fff"/><polygon class="mkpoly" fill="#000" stroke="#000" stroke-width="8" stroke-linejoin="round"/></mask></defs><g class="duck"><image href="intro/duck.png"/></g><g mask="url(#mk-a)"><polyline id="full" class="full"/><polyline id="trail" class="trail"/></g><polyline id="ol" class="ol"/>
+          <circle id="tdot-halo" class="tdot-halo" r="28"/><circle id="tdot" class="tdot" r="17"/><g id="tcur" class="cursor"><g transform="translate(3 3) scale(1.6)"><path d="M0 0 L0 18 L4.4 13.9 L7.3 20.4 L10.1 19.2 L7.3 12.8 L13.2 12.8 Z"/></g></g>
+        </svg>
+        <span class="pill" id="pill-ref">Reference · everything else is frozen</span>
+      </div>
+      <div class="frame" id="fr-ours">
+        <video id="v-ours" src="intro/ours.mp4" poster="intro/ours0.jpg" muted playsinline preload="auto"></video>
+        <span class="pill">MotionCue · the scene responds</span>
+        <span class="spin" aria-label="Loading"></span><button class="tap" type="button">Play</button>
+      </div>
+    </div>
+    <div class="screen pair off">
+      <div class="col"><div class="lab">Reference</div><div class="frame"><img src="intro/plate.jpg" alt=""><svg viewBox="0 0 720 480" aria-hidden="true"><g class="duck"><image href="intro/duck.png"/></g></svg></div></div>
+      <div class="col ours"><div class="lab">MotionCue</div><div class="frame"><video id="p-ours" src="intro/ours.mp4" poster="intro/ours0.jpg" muted playsinline loop preload="auto"></video><button class="tap" type="button">Play</button></div></div>
+    </div>
+  </div>
+  <div class="words">
+    <div class="w"><h2>Cut &amp; drag.</h2><p>Cut&nbsp;out an&nbsp;object and&nbsp;drag it&nbsp;along a&nbsp;path to&nbsp;make a&nbsp;rough&nbsp;reference&nbsp;video.<br>Only&nbsp;the&nbsp;object moves, and&nbsp;the&nbsp;background&nbsp;stays&nbsp;frozen.</p></div>
+    <div class="w"><h2>Alive.</h2><p>MotionCue&nbsp;takes this rough reference and&nbsp;generates a&nbsp;video in&nbsp;which the&nbsp;scene reacts&nbsp;to&nbsp;the&nbsp;moving&nbsp;object.</p></div>
+    <div class="w"><h2>Frozen → alive.</h2><p></p></div>
+  </div>
+  <a class="skip" href="#tryit">Try it yourself <span class="arr">↓</span></a>
+</section>
+<section class="tryit" id="tryit">
+  <h2>Try it</h2>
+  <p class="lead">Grab&nbsp;the&nbsp;duck, move it&nbsp;along the&nbsp;path, and&nbsp;compare the&nbsp;reference&nbsp;with&nbsp;the&nbsp;generated&nbsp;result.</p>
+  <div class="try-grid">
+    <div class="try-col"><div class="lab">You drag · Reference</div>
+      <div class="frame"><img src="intro/plate.jpg" alt="">
+        <svg id="try-svg" class="idle" viewBox="0 0 720 480"><defs><mask id="mk-b" maskUnits="userSpaceOnUse" x="-60" y="-60" width="840" height="600"><rect x="-60" y="-60" width="840" height="600" fill="#fff"/><polygon class="mkpoly" fill="#000" stroke="#000" stroke-width="8" stroke-linejoin="round"/></mask></defs><g class="duck"><image href="intro/duck.png"/></g><g mask="url(#mk-b)"><polyline id="try-full" class="full"/><polyline id="try-trail" class="trail"/></g>
+          <g id="handle"><circle class="tdot-halo" r="28"/><circle class="tdot" r="17"/><g id="try-cur" class="cursor hint"><g transform="translate(3 3) scale(1.6)"><path d="M0 0 L0 18 L4.4 13.9 L7.3 20.4 L10.1 19.2 L7.3 12.8 L13.2 12.8 Z"/></g></g></g></svg></div></div>
+    <div class="try-col ours"><div class="lab">MotionCue</div>
+      <div class="frame"><video id="t-ours" src="intro/ours_scrub_normal.mp4" poster="intro/ours0_normal.jpg" muted playsinline preload="auto"></video></div></div>
+  </div>
+  <label class="try-slider"><span>Start</span><input id="try-range" type="range" min="0" max="80" step="0.1" value="0" aria-label="Position along the path"><span>End</span></label>
+</section>
+<script>window.INTRO={"w": 720, "h": 480, "track": [[387.5, 241.0], [382.0, 241.6], [378.6, 242.1], [370.6, 243.1], [362.5, 244.1], [354.4, 245.1], [346.2, 246.0], [338.0, 246.9], [329.6, 247.3], [321.2, 247.7], [312.6, 247.7], [303.7, 247.5], [294.9, 247.2], [285.9, 246.9], [277.0, 246.6], [267.8, 246.5], [258.1, 247.0], [248.4, 247.6], [238.0, 248.8], [223.9, 250.6], [213.1, 252.2], [202.4, 253.8], [191.6, 255.4], [181.2, 257.6], [171.6, 260.5], [161.8, 263.4], [152.4, 267.3], [143.1, 271.2], [134.2, 275.3], [125.1, 279.7], [116.1, 284.0], [113.4, 287.3], [110.8, 290.6], [115.8, 292.5], [128.7, 293.0], [141.7, 293.5], [156.3, 293.8], [170.9, 294.2], [185.6, 294.4], [200.2, 293.5], [215.0, 292.7], [229.4, 290.6], [243.9, 288.5], [258.5, 285.4], [272.9, 282.3], [287.3, 279.2], [301.5, 276.4], [315.8, 273.6], [328.1, 272.7], [339.1, 273.4], [350.1, 274.1], [360.0, 276.3], [369.8, 278.4], [379.9, 280.6], [390.2, 282.2], [400.6, 283.7], [411.8, 283.6], [423.0, 283.4], [435.1, 281.6], [447.8, 278.8], [460.5, 275.9], [473.1, 273.0], [489.6, 269.5], [502.0, 266.9], [513.9, 264.7], [525.8, 262.5], [537.4, 260.7], [548.8, 259.2], [560.1, 257.6], [571.4, 256.1], [582.7, 254.6], [592.4, 254.2], [599.9, 255.3], [607.5, 256.4], [613.1, 259.0], [618.7, 261.5], [623.6, 264.5], [628.5, 267.3], [633.5, 270.2], [635.5, 271.3], [638.8, 273.3]], "outline": [[369, 185], [363, 191], [362, 196], [355, 203], [352, 202], [347, 205], [346, 214], [349, 218], [343, 221], [336, 229], [336, 236], [332, 243], [332, 248], [330, 251], [330, 262], [333, 268], [347, 278], [362, 283], [369, 282], [378, 285], [387, 285], [391, 283], [401, 283], [418, 278], [432, 270], [440, 260], [445, 248], [445, 243], [441, 236], [441, 227], [434, 213], [425, 208], [420, 208], [413, 211], [411, 209], [411, 203], [402, 187], [398, 187], [385, 182]], "sprite": [326, 178, 124, 112]};</script>
+
+<main>
+
+<section class="teaser" id="teaser" data-sync>
+  <div class="teaser-head"><p class="teaser-title">Following the trajectory without freezing the scene</p>
+  <div class="ctl"><button class="b-play">Pause</button><button class="b-restart">Restart</button><button class="b-rate" data-rate="0.5" title="Half speed">0.5×</button><button class="b-rate on" data-rate="1" title="Default speed">1×</button><button class="b-rate" data-rate="2" title="Double speed">2×</button></div></div>
+  <div class="trow"><div class="trow-title">(a) Natural motion along the path</div><div class="trow-grid"><div class="tcell"><div class="tlab">Reference</div><video src="videos/teaser__a_reference.mp4" muted loop playsinline preload="none"></video></div><div class="tcell"><div class="tlab">Backbone</div><video src="videos/teaser__a_backbone.mp4" muted loop playsinline preload="none"></video></div><div class="tcell ours"><div class="tlab">MotionCue</div><video src="videos/teaser__a_motioncue.mp4" muted loop playsinline preload="none"></video></div></div></div><div class="trow"><div class="trow-title">(b) Interaction with the surroundings</div><div class="trow-grid"><div class="tcell"><div class="tlab">Reference</div><video src="videos/teaser__b_reference.mp4" muted loop playsinline preload="none"></video></div><div class="tcell"><div class="tlab">Baseline</div><video src="videos/teaser__b_baseline.mp4" muted loop playsinline preload="none"></video></div><div class="tcell ours"><div class="tlab">MotionCue</div><video src="videos/teaser__b_motioncue.mp4" muted loop playsinline preload="none"></video></div></div></div><div class="trow"><div class="trow-title">(c) Motion in the distant background</div><div class="trow-grid"><div class="tcell"><div class="tlab">Reference</div><video src="videos/teaser__c_reference.mp4" muted loop playsinline preload="none"></video></div><div class="tcell"><div class="tlab">Baseline</div><video src="videos/teaser__c_baseline.mp4" muted loop playsinline preload="none"></video></div><div class="tcell ours"><div class="tlab">MotionCue</div><video src="videos/teaser__c_motioncue.mp4" muted loop playsinline preload="none"></video></div></div></div>
+
+</section>
+<section id="residual">
+  <h2>1. Why a Residual?</h2>
+  <p class="lead">In&nbsp;a&nbsp;cut-and-drag&nbsp;reference, only the&nbsp;object moves and&nbsp;the&nbsp;rest of&nbsp;the&nbsp;frame stays frozen as&nbsp;in&nbsp;the&nbsp;input&nbsp;image. Encoding&nbsp;the&nbsp;whole reference therefore carries this frozen scene into&nbsp;the&nbsp;generated&nbsp;video as&nbsp;well. Subtracting&nbsp;a&nbsp;static&nbsp;video that&nbsp;repeats the&nbsp;first frame from&nbsp;the&nbsp;reference cancels the&nbsp;frozen part and&nbsp;leaves only the&nbsp;motion of&nbsp;the&nbsp;object as&nbsp;a&nbsp;residual.</p>
+  <figure class="cmp" data-sync style="--n:3"><div class="cmp-head"><h4>Low band vs. residual</h4><div class="ctl"><button class="b-play" title="Play / pause">Pause</button><button class="b-restart" title="Restart">Restart</button><button class="b-rate" data-rate="0.5" title="Half speed">0.5×</button><button class="b-rate on" data-rate="1" title="Default speed">1×</button><button class="b-rate" data-rate="2" title="Double speed">2×</button></div></div><div class="grid"><div class="cell"><div class="lab">Reference</div><video src="videos/residual__reference.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">Φ-Noise (low band)</div><video src="videos/residual__phi_noise_low_band.mp4" muted loop playsinline preload="none"></video></div><div class="cell ours"><div class="lab">MotionCue (residual)</div><video src="videos/residual__motioncue_residual.mp4" muted loop playsinline preload="none"></video></div></div><p class="fcap">For&nbsp;comparison,&nbsp;the&nbsp;middle panel shows the&nbsp;temporal low band of&nbsp;the&nbsp;same&nbsp;reference&nbsp;latent. The&nbsp;right&nbsp;panel shows the&nbsp;residual d<sub>M</sub>, in&nbsp;which teal and&nbsp;orange mark where the&nbsp;object&nbsp;leaves&nbsp;and&nbsp;arrives. Each panel is&nbsp;normalized separately.</p></figure>
+</section>
+<section id="method">
+  <h2>2. One Cue, Then Hands Off</h2>
+  <p class="lead">MotionCue&nbsp;computes this residual in&nbsp;the&nbsp;latent space and&nbsp;adds it&nbsp;to&nbsp;the&nbsp;model only once, right after the&nbsp;first&nbsp;denoising&nbsp;step. The&nbsp;backbone&nbsp;generates everything&nbsp;else&nbsp;as&nbsp;usual.</p>
+  <figure class="mfig"><img src="method/overview.jpg" alt="Overview of MotionCue (Fig. 2 of the paper)" loading="lazy"></figure>
+</section>
+<section id="results">
+  <h2>3. Trajectory Control without Freezing the Scene</h2>
+  <p class="lead">MotionCue&nbsp;moves the&nbsp;object along the&nbsp;path of&nbsp;the&nbsp;reference while the&nbsp;surroundings react&nbsp;to&nbsp;it. Every&nbsp;method uses the&nbsp;same image, reference, prompt,&nbsp;and&nbsp;seed&nbsp;on&nbsp;Wan2.2-I2V-A14B.</p>
+  <div class="picker"><p class="switch-cta pick-cta">Pick a scene and compare</p><div class="picks hint" role="tablist"><button class="pick" role="tab" data-i="0" aria-selected="true" aria-label="A dog herding sheep" title="A dog herding sheep"><img src="videos/thumb_sheep.jpg" alt="" loading="lazy"></button><button class="pick" role="tab" data-i="1" aria-selected="false" aria-label="A tennis player" title="A tennis player"><img src="videos/thumb_tennis.jpg" alt="" loading="lazy"></button><button class="pick" role="tab" data-i="2" aria-selected="false" aria-label="A boat skirting a whirlpool" title="A boat skirting a whirlpool"><img src="videos/thumb_boat_ocean.jpg" alt="" loading="lazy"></button><button class="pick" role="tab" data-i="3" aria-selected="false" aria-label="A paper boat in the rain" title="A paper boat in the rain"><img src="videos/thumb_paper_boat.jpg" alt="" loading="lazy"></button><button class="pick" role="tab" data-i="4" aria-selected="false" aria-label="Hikers crossing a stream" title="Hikers crossing a stream"><img src="videos/thumb_hikers.jpg" alt="" loading="lazy"></button><button class="pick" role="tab" data-i="5" aria-selected="false" aria-label="A robot vacuum" title="A robot vacuum"><img src="videos/thumb_vacuum.jpg" alt="" loading="lazy"></button></div><div class="pane on" data-i="0"><figure class="cmp" data-sync style="--n:5"><div class="cmp-head"><h4>A dog herding sheep</h4><div class="ctl"><button class="b-play" title="Play / pause">Pause</button><button class="b-restart" title="Restart">Restart</button><button class="b-rate" data-rate="0.5" title="Half speed">0.5×</button><button class="b-rate on" data-rate="1" title="Default speed">1×</button><button class="b-rate" data-rate="2" title="Double speed">2×</button></div></div><div class="grid"><div class="cell"><div class="lab">Reference</div><video src="videos/sheep__reference.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">Backbone</div><video src="videos/sheep__backbone.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">Time-to-Move</div><video src="videos/sheep__time_to_move.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">Φ-Noise</div><video src="videos/sheep__phi_noise.mp4" muted loop playsinline preload="none"></video></div><div class="cell ours"><div class="lab">MotionCue</div><video src="videos/sheep__motioncue.mp4" muted loop playsinline preload="none"></video></div></div><details class="prompt"><summary>Prompt</summary><p>A border collie follows its route while herding a flock of sheep across the landscape. The overall mood is calm, with smooth, natural, physically realistic motion. The camera remains stationary.</p></details></figure></div><div class="pane" data-i="1"><figure class="cmp" data-sync style="--n:5"><div class="cmp-head"><h4>A tennis player</h4><div class="ctl"><button class="b-play" title="Play / pause">Pause</button><button class="b-restart" title="Restart">Restart</button><button class="b-rate" data-rate="0.5" title="Half speed">0.5×</button><button class="b-rate on" data-rate="1" title="Default speed">1×</button><button class="b-rate" data-rate="2" title="Double speed">2×</button></div></div><div class="grid"><div class="cell"><div class="lab">Reference</div><video src="videos/tennis__reference.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">Backbone</div><video src="videos/tennis__backbone.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">Time-to-Move</div><video src="videos/tennis__time_to_move.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">Φ-Noise</div><video src="videos/tennis__phi_noise.mp4" muted loop playsinline preload="none"></video></div><div class="cell ours"><div class="lab">MotionCue</div><video src="videos/tennis__motioncue.mp4" muted loop playsinline preload="none"></video></div></div><details class="prompt"><summary>Prompt</summary><p>During a tennis match, a player in white follows a forward path to return the ball. The player&#x27;s footwork and swing are smooth and coordinated. The motion is natural and physically realistic. The camera remains stationary.</p></details></figure></div><div class="pane" data-i="2"><figure class="cmp" data-sync style="--n:5"><div class="cmp-head"><h4>A boat skirting a whirlpool</h4><div class="ctl"><button class="b-play" title="Play / pause">Pause</button><button class="b-restart" title="Restart">Restart</button><button class="b-rate" data-rate="0.5" title="Half speed">0.5×</button><button class="b-rate on" data-rate="1" title="Default speed">1×</button><button class="b-rate" data-rate="2" title="Double speed">2×</button></div></div><div class="grid"><div class="cell"><div class="lab">Reference</div><video src="videos/boat_ocean__reference.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">Backbone</div><video src="videos/boat_ocean__backbone.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">Time-to-Move</div><video src="videos/boat_ocean__time_to_move.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">Φ-Noise</div><video src="videos/boat_ocean__phi_noise.mp4" muted loop playsinline preload="none"></video></div><div class="cell ours"><div class="lab">MotionCue</div><video src="videos/boat_ocean__motioncue.mp4" muted loop playsinline preload="none"></video></div></div><details class="prompt"><summary>Prompt</summary><p>A boat follows a path past a large whirlpool in the middle of the ocean, smoothly skirting its edge just before being drawn in. The overall mood is calm, with smooth, natural, physically realistic motion. The camera remains stationary.</p></details></figure></div><div class="pane" data-i="3"><figure class="cmp" data-sync style="--n:5"><div class="cmp-head"><h4>A paper boat in the rain</h4><div class="ctl"><button class="b-play" title="Play / pause">Pause</button><button class="b-restart" title="Restart">Restart</button><button class="b-rate" data-rate="0.5" title="Half speed">0.5×</button><button class="b-rate on" data-rate="1" title="Default speed">1×</button><button class="b-rate" data-rate="2" title="Double speed">2×</button></div></div><div class="grid"><div class="cell"><div class="lab">Reference</div><video src="videos/paper_boat__reference.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">Backbone</div><video src="videos/paper_boat__backbone.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">Time-to-Move</div><video src="videos/paper_boat__time_to_move.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">Φ-Noise</div><video src="videos/paper_boat__phi_noise.mp4" muted loop playsinline preload="none"></video></div><div class="cell ours"><div class="lab">MotionCue</div><video src="videos/paper_boat__motioncue.mp4" muted loop playsinline preload="none"></video></div></div><details class="prompt"><summary>Prompt</summary><p>In a rainy urban park, a white paper boat follows the same downstream path along a swollen stream. Gusts and lively water make the boat rotate and bob as raindrops disturb the surface. The overall mood is energetic and dynamic, with natural, physically realistic motion. The camera remains stationary.</p></details></figure></div><div class="pane" data-i="4"><figure class="cmp" data-sync style="--n:5"><div class="cmp-head"><h4>Hikers crossing a stream</h4><div class="ctl"><button class="b-play" title="Play / pause">Pause</button><button class="b-restart" title="Restart">Restart</button><button class="b-rate" data-rate="0.5" title="Half speed">0.5×</button><button class="b-rate on" data-rate="1" title="Default speed">1×</button><button class="b-rate" data-rate="2" title="Double speed">2×</button></div></div><div class="grid"><div class="cell"><div class="lab">Reference</div><video src="videos/hikers__reference.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">Backbone</div><video src="videos/hikers__backbone.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">Time-to-Move</div><video src="videos/hikers__time_to_move.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">Φ-Noise</div><video src="videos/hikers__phi_noise.mp4" muted loop playsinline preload="none"></video></div><div class="cell ours"><div class="lab">MotionCue</div><video src="videos/hikers__motioncue.mp4" muted loop playsinline preload="none"></video></div></div><details class="prompt"><summary>Prompt</summary><p>Several hikers cross a rocky mountain stream. A woman in purple carefully follows a path through the shallow water, while a person in red approaches from farther upstream. The water and their body movements are natural and physically realistic. The camera remains stationary.</p></details></figure></div><div class="pane" data-i="5"><figure class="cmp" data-sync style="--n:5"><div class="cmp-head"><h4>A robot vacuum</h4><div class="ctl"><button class="b-play" title="Play / pause">Pause</button><button class="b-restart" title="Restart">Restart</button><button class="b-rate" data-rate="0.5" title="Half speed">0.5×</button><button class="b-rate on" data-rate="1" title="Default speed">1×</button><button class="b-rate" data-rate="2" title="Double speed">2×</button></div></div><div class="grid"><div class="cell"><div class="lab">Reference</div><video src="videos/vacuum__reference.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">Backbone</div><video src="videos/vacuum__backbone.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">Time-to-Move</div><video src="videos/vacuum__time_to_move.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">Φ-Noise</div><video src="videos/vacuum__phi_noise.mp4" muted loop playsinline preload="none"></video></div><div class="cell ours"><div class="lab">MotionCue</div><video src="videos/vacuum__motioncue.mp4" muted loop playsinline preload="none"></video></div></div><details class="prompt"><summary>Prompt</summary><p>A robot vacuum moves across the floor while cleaning scattered pieces of colored paper. Paper disappears along the cleaned path, while nearby pieces shift naturally. The motion is natural and physically realistic. The camera remains stationary.</p></details></figure></div></div>
+</section>
+<section id="prompt">
+  <h2>4. Same Path, Prompt-Driven Dynamics</h2>
+  <p class="lead">Flip&nbsp;the&nbsp;switch to&nbsp;change&nbsp;only&nbsp;the&nbsp;prompt. MotionCue&nbsp;keeps the&nbsp;duck on&nbsp;the&nbsp;same path and&nbsp;turns calm ripples into rough waves when the&nbsp;prompt&nbsp;asks&nbsp;for&nbsp;them.</p>
+  
+<figure class="toggle" data-sync data-cond="normal" style="--ar:504/336;--n:5">
+  <div class="switch-row">
+    <p class="switch-cta">Flip the prompt and compare</p>
+    <div class="seg big hint" role="radiogroup" aria-label="Prompt">
+      <span class="thumb" aria-hidden="true"></span>
+      <button role="radio" aria-checked="true" data-set="normal">Normal</button>
+      <button role="radio" aria-checked="false" data-set="dynamic">Dynamic</button>
+    </div>
+  </div>
+  <div class="cmp-head"><h4></h4>
+    <div class="ctl"><button class="b-play" title="Play / pause">Pause</button><button class="b-restart" title="Restart">Restart</button><button class="b-rate" data-rate="0.5" title="Half speed">0.5×</button><button class="b-rate on" data-rate="1" title="Default speed">1×</button><button class="b-rate" data-rate="2" title="Double speed">2×</button></div></div>
+  <div class="tgrid"><div class="tcol"><div class="tlab">Reference</div><div class="stack"><video class="layer" data-cond="both" src="videos/toggle_normal__reference.mp4" muted loop playsinline preload="none"></video></div></div><div class="tcol"><div class="tlab">Backbone</div><div class="stack"><video class="layer" data-cond="normal" src="videos/toggle_normal__backbone.mp4" muted loop playsinline preload="none"></video><video class="layer" data-cond="dynamic" src="videos/toggle_dynamic__backbone.mp4" muted loop playsinline preload="none"></video></div></div><div class="tcol"><div class="tlab">Time-to-Move</div><div class="stack"><video class="layer" data-cond="normal" src="videos/toggle_normal__time_to_move.mp4" muted loop playsinline preload="none"></video><video class="layer" data-cond="dynamic" src="videos/toggle_dynamic__time_to_move.mp4" muted loop playsinline preload="none"></video></div></div><div class="tcol"><div class="tlab">Φ-Noise</div><div class="stack"><video class="layer" data-cond="normal" src="videos/toggle_normal__phi_noise.mp4" muted loop playsinline preload="none"></video><video class="layer" data-cond="dynamic" src="videos/toggle_dynamic__phi_noise.mp4" muted loop playsinline preload="none"></video></div></div><div class="tcol ours"><div class="tlab">MotionCue</div><div class="stack"><video class="layer" data-cond="normal" src="videos/toggle_normal__motioncue.mp4" muted loop playsinline preload="none"></video><video class="layer" data-cond="dynamic" src="videos/toggle_dynamic__motioncue.mp4" muted loop playsinline preload="none"></video></div></div></div>
+  <div class="tprompt"><p data-cond="normal">A yellow rubber duck gently floats on the water, naturally drifting from side to side. It slowly moves left and right with the small waves, softly bobbing and slightly rotating. Keep the camera steady and the motion smooth, subtle, and realistic.</p><p data-cond="dynamic">A yellow rubber duck gently floats on <mark>rough, choppy water</mark>, naturally drifting from side to side. It slowly moves left and right while <mark>strong turbulent waves surge around it, producing large ripples, splashes, and energetic water-surface motion</mark>. The duck softly bobs and slightly rotates <mark>in response to the waves</mark>. Keep the camera steady, with realistic fluid dynamics and natural physics.</p></div>
+</figure>
+</section>
+<section id="ablation">
+  <h2>5. What Breaks Without Each Part?</h2>
+  <p class="lead">Each&nbsp;block below ablates one component of&nbsp;MotionCue, from&nbsp;the&nbsp;static subtraction and&nbsp;the&nbsp;injection step to&nbsp;footprint&nbsp;suppression&nbsp;(λ) and&nbsp;the&nbsp;cue&nbsp;strength&nbsp;(β), and&nbsp;shows the&nbsp;failure that the&nbsp;component prevents.</p>
+  <figure class="cmp" data-sync style="--n:4"><div class="cmp-head"><h4>Component ablation</h4><div class="ctl"><button class="b-play" title="Play / pause">Pause</button><button class="b-restart" title="Restart">Restart</button><button class="b-rate" data-rate="0.5" title="Half speed">0.5×</button><button class="b-rate on" data-rate="1" title="Default speed">1×</button><button class="b-rate" data-rate="2" title="Double speed">2×</button></div></div><div class="grid"><div class="cell"><div class="lab">Reference</div><video src="videos/components__reference.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">w/o Static subtraction</div><video src="videos/components__w_o_static_subtraction.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">Inject at k = 0</div><video src="videos/components__inject_at_k_0.mp4" muted loop playsinline preload="none"></video></div><div class="cell ours"><div class="lab">MotionCue</div><video src="videos/components__motioncue.mp4" muted loop playsinline preload="none"></video></div></div><p class="fcap">Without&nbsp;static subtraction, the&nbsp;full reference latent z<sub>M</sub> is&nbsp;injected and&nbsp;carries the&nbsp;frozen scene&nbsp;along&nbsp;with&nbsp;the&nbsp;motion. Injecting&nbsp;at&nbsp;the&nbsp;initial noise (k = 0) turns the&nbsp;residual into part of&nbsp;the&nbsp;noise, which makes the&nbsp;control weaker&nbsp;and&nbsp;less&nbsp;stable.</p></figure>
+  <figure class="cmp" data-sync style="--n:2"><div class="cmp-head"><h4>Footprint suppression</h4><div class="ctl"><button class="b-play" title="Play / pause">Pause</button><button class="b-restart" title="Restart">Restart</button><button class="b-rate" data-rate="0.5" title="Half speed">0.5×</button><button class="b-rate on" data-rate="1" title="Default speed">1×</button><button class="b-rate" data-rate="2" title="Double speed">2×</button></div></div><div class="grid"><div class="cell"><div class="lab">λ = 1 (no suppression)</div><video src="videos/lambda__lambda_1_no_suppression.mp4" muted loop playsinline preload="none"></video></div><div class="cell ours"><div class="lab">λ = 0.8 (default)</div><video src="videos/lambda__lambda_0_8_default.mp4" muted loop playsinline preload="none"></video></div></div><p class="fcap">Without&nbsp;footprint suppression (λ = 1), a&nbsp;faint&nbsp;ghost remains where&nbsp;the&nbsp;motorcycle&nbsp;starts.</p></figure>
+  <figure class="cmp" data-sync style="--n:3"><div class="cmp-head"><h4>Injection strength</h4><div class="ctl"><button class="b-play" title="Play / pause">Pause</button><button class="b-restart" title="Restart">Restart</button><button class="b-rate" data-rate="0.5" title="Half speed">0.5×</button><button class="b-rate on" data-rate="1" title="Default speed">1×</button><button class="b-rate" data-rate="2" title="Double speed">2×</button></div></div><div class="grid"><div class="cell"><div class="lab">Reference</div><video src="videos/beta__reference.mp4" muted loop playsinline preload="none"></video></div><div class="cell"><div class="lab">β = 0.015</div><video src="videos/beta__beta_0_015.mp4" muted loop playsinline preload="none"></video></div><div class="cell ours"><div class="lab">β = 0.0088 (default)</div><video src="videos/beta__beta_0_0088_default.mp4" muted loop playsinline preload="none"></video></div></div><p class="fcap">An&nbsp;overly&nbsp;strong cue (β = 0.015) can distort&nbsp;the&nbsp;scene&nbsp;excessively.</p></figure>
+</section>
+<section id="hunyuan">
+  <h2>6. Generalization to HunyuanVideo-1.5</h2>
+  <p class="lead">MotionCue&nbsp;carries over to&nbsp;HunyuanVideo-1.5 with&nbsp;the&nbsp;same training-free procedure, and&nbsp;only the&nbsp;cue&nbsp;strength is rescaled&nbsp;once&nbsp;to&nbsp;β&nbsp;=&nbsp;0.03.</p>
+  <figure class="teaser rows" data-sync><div class="teaser-head"><p class="teaser-title">HunyuanVideo-1.5 + MotionCue</p><div class="ctl"><button class="b-play">Pause</button><button class="b-restart">Restart</button><button class="b-rate" data-rate="0.5" title="Half speed">0.5×</button><button class="b-rate on" data-rate="1" title="Default speed">1×</button><button class="b-rate" data-rate="2" title="Double speed">2×</button></div></div><div class="trow"><div class="trow-title">A dog herding sheep</div><div class="trow-grid"><div class="tcell"><div class="tlab">Reference</div><video src="videos/hy_sheep__reference.mp4" muted loop playsinline preload="none"></video></div><div class="tcell"><div class="tlab">Backbone</div><video src="videos/hy_sheep__backbone.mp4" muted loop playsinline preload="none"></video></div><div class="tcell ours"><div class="tlab">MotionCue</div><video src="videos/hy_sheep__motioncue.mp4" muted loop playsinline preload="none"></video></div></div></div><div class="trow"><div class="trow-title">A tennis player</div><div class="trow-grid"><div class="tcell"><div class="tlab">Reference</div><video src="videos/hy_tennis__reference.mp4" muted loop playsinline preload="none"></video></div><div class="tcell"><div class="tlab">Backbone</div><video src="videos/hy_tennis__backbone.mp4" muted loop playsinline preload="none"></video></div><div class="tcell ours"><div class="tlab">MotionCue</div><video src="videos/hy_tennis__motioncue.mp4" muted loop playsinline preload="none"></video></div></div></div><div class="trow"><div class="trow-title">A boat skirting a whirlpool</div><div class="trow-grid"><div class="tcell"><div class="tlab">Reference</div><video src="videos/hy_boat__reference.mp4" muted loop playsinline preload="none"></video></div><div class="tcell"><div class="tlab">Backbone</div><video src="videos/hy_boat__backbone.mp4" muted loop playsinline preload="none"></video></div><div class="tcell ours"><div class="tlab">MotionCue</div><video src="videos/hy_boat__motioncue.mp4" muted loop playsinline preload="none"></video></div></div></div></figure>
+</section>
+</main>
+<footer><p>Videos are re-encoded at reduced resolution to fit the supplementary size limit.</p></footer>
+<script>(function(){
+  document.querySelectorAll('.toggle').forEach(h=>{
+    const btns=[...h.querySelectorAll('.seg button')];
+    const set=c=>{ h.querySelectorAll('.seg.hint').forEach(s=>s.classList.remove('hint')); h.dataset.cond=c; btns.forEach(b=>b.setAttribute('aria-checked',String(b.dataset.set===c))); if(h.mcPlay) h.mcPlay(); };
+    btns.forEach(b=>{ b.addEventListener('click',()=>set(b.dataset.set));
+      b.addEventListener('keydown',e=>{ if(e.key==='ArrowRight'||e.key==='ArrowLeft'){ e.preventDefault();
+        const i=(btns.indexOf(b)+(e.key==='ArrowRight'?1:-1)+btns.length)%btns.length; set(btns[i].dataset.set); btns[i].focus(); } }); });
+  });
+  const groups=[...document.querySelectorAll('[data-sync]')];
+  groups.forEach(g=>{
+    const vids=[...g.querySelectorAll('video')]; if(!vids.length) return;
+    const master=vids[0]; let playing=true;
+    const bPlay=g.querySelector('.b-play'), bRe=g.querySelector('.b-restart');
+    const all=f=>vids.forEach(f);
+    // If the browser refuses to start playback (Safari autoplay settings, Low Power Mode), show "Play" so one click starts the block.
+    function blocked(){ if(!playing) return; playing=false; if(bPlay) bPlay.textContent='Play'; all(v=>v.pause()); }
+    function tryPlay(v){ if(v.preload!=='auto') v.preload='auto'; const q=v.play(); if(q&&q.catch) q.catch(err=>{ if(err&&err.name==='NotAllowedError') blocked(); }); }
+    // Only nudge clips that have data and are not already seeking: repeated seeks on a clip that is still loading
+    // restart its download, and Safari then never gets far enough to play it.
+    function sync(){ if(!playing) return; const t=master.currentTime;
+      vids.slice(1).forEach(v=>{ if(v.seeking||v.readyState<3) return;
+        if(Math.abs(v.currentTime-t)>0.15) v.currentTime=t;
+        if(v.paused) tryPlay(v); }); }
+    function restart(){ playing=true; if(bPlay) bPlay.textContent='Pause'; all(v=>{ v.currentTime=0; tryPlay(v); }); }
+    master.addEventListener('timeupdate',sync);
+    master.addEventListener('seeked',sync);
+    // when the master loops, bring every video back to the start together
+    let last=0; master.addEventListener('timeupdate',()=>{ if(master.currentTime<last-1) vids.slice(1).forEach(v=>{ if(v.readyState>=1) v.currentTime=master.currentTime; }); last=master.currentTime; });
+    bPlay&&bPlay.addEventListener('click',()=>{ playing=!playing; bPlay.textContent=playing?'Pause':'Play';
+      if(playing){ all(tryPlay); } else { all(v=>v.pause()); } });
+    bRe&&bRe.addEventListener('click',restart);
+    // lets the scene picker start this block from a click, which Safari always allows
+    g.mcRestart=restart;
+    g.mcPlay=()=>{ playing=true; if(bPlay) bPlay.textContent='Pause'; all(tryPlay); };
+    const rates=[...g.querySelectorAll('.b-rate')];
+    rates.forEach(b=>b.addEventListener('click',()=>{ const r=parseFloat(b.dataset.rate)||1; rates.forEach(x=>x.classList.toggle('on',x===b)); all(v=>{ v.defaultPlaybackRate=r; v.playbackRate=r; }); }));
+    vids.forEach(v=>v.addEventListener('click',()=>bPlay&&bPlay.click()));
+    // play only while visible, starting all videos of the block together
+    // load clips only as their figure approaches, so the intro gets the bandwidth first
+    const warm=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ all(v=>{ if(v.preload!=='auto') v.preload='auto'; }); warm.disconnect(); } }),{rootMargin:'900px 0px'});
+    warm.observe(g);
+    const io=new IntersectionObserver(es=>es.forEach(e=>{
+      // call play() straight away: Safari only fetches a clip once it is asked to play, so waiting for data first can stall forever.
+      // The timeupdate handler above pulls the other clips onto the master's clock once they run.
+      if(e.isIntersecting && playing){ all(tryPlay); }
+      else if(!e.isIntersecting){ all(v=>v.pause()); }
+    }),{threshold:0});
+    io.observe(g);
+  });
+  const abs=document.querySelector('.abstract p:not(.abs-h)');
+  function lastLine(){ if(!abs) return; abs.style.maxWidth=''; abs.style.marginInline='';
+    if(getComputedStyle(abs).textAlign!=='justify') return;
+    const full=abs.getBoundingClientRect().width;
+    // a zero-width marker after the last word tells how far the (left-aligned) last line reaches
+    let mk=abs.querySelector('.eol'); if(!mk){ mk=document.createElement('span'); mk.className='eol'; abs.appendChild(mk); }
+    const tail=()=>mk.getBoundingClientRect().left-abs.getBoundingClientRect().left;
+    let best=full, bestR=tail()/full; if(bestR>=0.55) return;
+    for(let w=full-4; w>full*0.86; w-=4){ abs.style.maxWidth=w+'px'; abs.style.marginInline='auto'; const r=tail()/w; if(r>bestR){ best=w; bestR=r; } if(r>=0.55) return; }
+    abs.style.maxWidth=best+'px'; abs.style.marginInline='auto'; }
+  let rz=0; addEventListener('resize',()=>{ clearTimeout(rz); rz=setTimeout(lastLine,120); });
+  (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(lastLine);
+})();
+/* scene picker and method diagram */
+(function(){
+  document.querySelectorAll('.picker').forEach(pk=>{
+    const btns=[...pk.querySelectorAll('.pick')], panes=[...pk.querySelectorAll('.pane')];
+    const sel=i=>{ btns.forEach((b,j)=>b.setAttribute('aria-selected',String(i===j)));
+      panes.forEach((p,j)=>{ const on=i===j; if(!on) p.querySelectorAll('video').forEach(v=>v.pause()); p.classList.toggle('on',on); }); };
+    const picksEl=pk.querySelector('.picks'); const calm=()=>picksEl&&picksEl.classList.remove('hint');
+    const start=i=>{ const f=panes[i]&&panes[i].querySelector('[data-sync]'); if(f&&f.mcRestart) f.mcRestart(); };
+    btns.forEach((b,i)=>{ b.addEventListener('click',()=>{ calm(); sel(i); start(i); });
+      b.addEventListener('keydown',e=>{ if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft') return; e.preventDefault();
+        const k=(i+(e.key==='ArrowRight'?1:-1)+btns.length)%btns.length; calm(); sel(k); start(k); btns[k].focus(); }); });
+  });
+  const M=document.querySelector('.method'); if(!M) return;
+  const ref=M.querySelector('.m-ref'), res=M.querySelector('.m-res'), out=M.querySelector('.m-out');
+  const fills=[...M.querySelectorAll('.mstep b')], ticks=[...M.querySelectorAll('.ticks i')], head=M.querySelector('.ticks .head');
+  const cv=M.querySelector('.m-lat'), cx=cv.getContext('2d'), kval=M.querySelector('.kval');
+  const img=src=>{ const i=new Image(); i.src=src; i.onload=()=>draw(curK,curR); return i; };
+  const NOISE=img('method/noise.jpg'), CLEAN=img('method/out40.jpg'), RES=img('method/res40.jpg');
+  // noise level of step k under the shifted schedule of Wan2.2 (flow shift 5, 40 steps)
+  const sig=k=>{ const s=1-k/40; return 5*s/(1+4*s); };
+  let curK=0, curR=0;
+  function draw(k,r){ curK=k; curR=r; const W=cv.width,H=cv.height;
+    if(NOISE.complete) { cx.globalAlpha=1; cx.globalCompositeOperation='source-over'; cx.drawImage(NOISE,0,0,W,H); }
+    if(CLEAN.complete) { cx.globalAlpha=Math.max(0,1-sig(k)); cx.drawImage(CLEAN,0,0,W,H); }
+    if(r>0&&RES.complete){ cx.globalCompositeOperation='screen'; cx.globalAlpha=r; cx.drawImage(RES,0,0,W,H); cx.globalCompositeOperation='source-over'; }
+    cx.globalAlpha=1; kval.textContent=String(Math.round(k)); }
+  const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const LEN=[5200,3200], DEN=3600; let step=0, t0=0, visible=false, endAt=0, outStarted=false;
+  const play=v=>{ if(v.preload!=='auto') v.preload='auto'; const p=v.play(); if(p&&p.catch) p.catch(()=>{}); };
+  const setHead=k=>{ head.style.left=(k/40*100)+'%'; ticks.forEach((t,i)=>t.classList.toggle('done',i>1&&i<=k)); };
+  function show(s){ step=s; t0=performance.now(); endAt=0; outStarted=false; M.dataset.step=String(s);
+    if(s===1){ const d=M.querySelector('.drop'); d.style.animation='none'; void d.offsetWidth; d.style.animation=''; }
+    fills.forEach((f,i)=>f.style.transform=`scaleX(${i<s?1:0})`);
+    out.pause(); try{out.currentTime=0;}catch(e){}
+    if(s===0){ setHead(0); draw(0,0); try{ref.currentTime=0;res.currentTime=0;}catch(e){} play(ref); play(res); }
+    if(s===1){ setHead(0); draw(0,0); }
+    if(s===2){ setHead(1); draw(1,.45); }
+  }
+  function tick(now){ requestAnimationFrame(tick); if(!visible) return;
+    const e=now-t0;
+    if(reduce){ return; }
+    if(step===0){ fills[0].style.transform=`scaleX(${Math.min(1,e/LEN[0])})`;
+      if(Math.abs(res.currentTime-ref.currentTime)>0.08) res.currentTime=ref.currentTime; if(e>LEN[0]) show(1); }
+    else if(step===1){ fills[1].style.transform=`scaleX(${Math.min(1,e/LEN[1])})`;
+      const k=Math.min(1,e/900); setHead(k);
+      // the cue lands at about 1.3 s (the drop animation), then stays in the latent
+      const r=e<1300?0:(e<1700?0.85*(e-1300)/400:0.85-0.4*Math.min(1,(e-1700)/1000));
+      draw(k,r); if(e>LEN[1]) show(2); }
+    else { const d=out.duration||5.06;
+      if(e<DEN){ const p=e/DEN, k=1+39*(p*p*(3-2*p)); setHead(k); draw(k,.45*(1-p)); fills[2].style.transform=`scaleX(${0.4*p})`; }
+      else { if(!outStarted){ outStarted=true; setHead(40); draw(40,0); try{out.currentTime=0;}catch(err){} play(out); }
+        const c=out.currentTime, p=Math.min(1,c/d); fills[2].style.transform=`scaleX(${0.4+0.6*p})`;
+        if(out.ended||c>=d-0.05){ if(!endAt) endAt=now; if(now-endAt>900) show(0); } } }
+  }
+  M.querySelectorAll('.mstep').forEach(b=>b.addEventListener('click',()=>show(+b.dataset.s)));
+  new IntersectionObserver(es=>es.forEach(en=>{ visible=en.isIntersecting;
+    if(visible){ show(reduce?2:step); if(reduce){ setHead(40); draw(40,0); } } else { [ref,res,out].forEach(v=>v.pause()); } }),{threshold:.25}).observe(M);
+  draw(0,0); requestAnimationFrame(tick);
+})();
+(function(){
+  const D=window.INTRO, N=D.track.length, FPS=16, DUR=N/FPS;
+  const ptsStr=a=>a.map(p=>p[0]+','+p[1]).join(' ');
+  const at=(arr,f)=>{const i=Math.max(0,Math.min(arr.length-1,f)),a=Math.floor(i),b=Math.min(arr.length-1,a+1),t=i-a;return[arr[a][0]*(1-t)+arr[b][0]*t,arr[a][1]*(1-t)+arr[b][1]*t];};
+  const OX=14, OY=16; // grab point sits on the body, clear of the head and beak
+  const [SX,SY,SW,SH]=D.sprite, T0=D.track[0];
+  // duck sprite: the reference is the frozen plate plus the cut-out duck translated along the track
+  document.querySelectorAll('.duck image').forEach(im=>{im.setAttribute('x',SX);im.setAttribute('y',SY);im.setAttribute('width',SW);im.setAttribute('height',SH);});
+  document.querySelectorAll('.mkpoly').forEach(p=>p.setAttribute('points',ptsStr(D.outline)));
+  const place=(root,f)=>{ const [x,y]=at(D.track,f), tr=`translate(${x-T0[0]} ${y-T0[1]})`;
+    root.querySelectorAll('.duck,.mkpoly').forEach(n=>n.setAttribute('transform',tr)); return [x,y]; };
+  const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------------- intro sequence ---------------- */
+  const I=document.getElementById('intro'); if(!I) return;
+  const q=s=>I.querySelector(s);
+  const frRef=q('#fr-ref'), frOurs=q('#fr-ours'), vOurs=q('#v-ours'), pOurs=q('#p-ours');
+  const single=q('.screen.single'), pair=q('.screen.pair');
+  const ol=q('#ol'), trail=q('#trail'), full=q('#full'), dot=q('#tdot'), halo=q('#tdot-halo'), pill=q('#pill-ref');
+  const words=[...I.querySelectorAll('.words .w')], segs=[...I.querySelectorAll('.prog .pseg')], fills=segs.map(s=>s.querySelector('b'));
+  full.setAttribute('points',ptsStr(D.track));
+  const OL=D.outline.concat([D.outline[0]]);
+  const olCum=[0]; for(let i=1;i<OL.length;i++) olCum.push(olCum[i-1]+Math.hypot(OL[i][0]-OL[i-1][0],OL[i][1]-OL[i-1][1]));
+  const olLen=olCum[olCum.length-1];
+  const olAt=s=>{let i=1; while(i<OL.length-1&&olCum[i]<s)i++; const t=(s-olCum[i-1])/((olCum[i]-olCum[i-1])||1); return [OL[i-1][0]+(OL[i][0]-OL[i-1][0])*t, OL[i-1][1]+(OL[i][1]-OL[i-1][1])*t];};
+  ol.setAttribute('points',ptsStr(OL));
+  const cur=q('#tcur');
+  const setDot=(x,y,on=true)=>{dot.setAttribute('cx',x);dot.setAttribute('cy',y);halo.setAttribute('cx',x);halo.setAttribute('cy',y);dot.style.opacity=halo.style.opacity=on?1:0;
+    cur.setAttribute('transform',`translate(${x} ${y})`); cur.style.opacity=(on&&dragPh)?1:0;};
+
+  // step 0 = cut & drag (short, just the idea), 1 = MotionCue, 2 = side-by-side comparison
+  const RATE=1.35, HOLD=600, CUT=1200, GAP=250, DRAG_RATE=2.1, DRAG=DUR/DRAG_RATE*1000;
+  const LEN=[CUT+GAP+DRAG+500, DUR/RATE*1000+HOLD, 6000]; // ms per step
+  let dragPh=false;
+  let step=-1, t0=0, visible=true, waiting=false, spinT=0, endAt=0;
+  const setFill=(i,p)=>{ fills[i].style.transform=`scaleX(${Math.max(0,Math.min(1,p))})`; };
+
+  // Safari ignores preload until a clip has been played once, so play each clip silently for a moment and rewind
+  function prime(v){ const p=v.play(); const stop=()=>{ v.pause(); try{v.currentTime=0;}catch(e){} };
+    if(p&&p.then) p.then(()=>{ if(!(v===vOurs&&step===1)&&!(v===pOurs&&step===2)) stop(); }).catch(()=>{}); }
+  // If the browser holds back playback (Safari autoplay rules, Low Power Mode), show a play button instead of an endless spinner.
+  const tapOurs=frOurs.querySelector('.tap'), pairFr=pOurs.parentElement, tapPair=pairFr.querySelector('.tap');
+  const setTap=(fr,on)=>fr.classList.toggle('blocked',on);
+  function start(v,fr){
+    v.pause(); try{ v.currentTime=0; }catch(e){}
+    setTap(fr,false); fr.classList.remove('loading');
+    clearTimeout(spinT); spinT=setTimeout(()=>{ if(v.paused||waiting){ fr.classList.remove('loading'); setTap(fr,true); } },900);
+    const p=v.play(); if(p&&p.catch) p.catch(()=>{ setTap(fr,true); });
+  }
+  function playOurs(){ vOurs.playbackRate=RATE; waiting=true; start(vOurs,frOurs); }
+  vOurs.addEventListener('playing',()=>{ setTap(frOurs,false); frOurs.classList.remove('loading'); if(step===1&&waiting){ waiting=false; t0=performance.now(); } });
+  vOurs.addEventListener('waiting',()=>{ if(step===1&&!waiting) frOurs.classList.add('loading'); });
+  pOurs.addEventListener('playing',()=>{ setTap(pairFr,false); if(step===2) t0=performance.now(); });
+  tapOurs.addEventListener('click',()=>{ setTap(frOurs,false); vOurs.play().catch(()=>{}); });
+  tapPair.addEventListener('click',()=>{ setTap(pairFr,false); pOurs.play().catch(()=>{}); });
+  // the first tap or key press anywhere unlocks every clip, so later steps can start on their own
+  let unlocked=false;
+  function unlock(){ if(unlocked) return; unlocked=true;
+    [vOurs,pOurs,document.getElementById('t-ours')].forEach(v=>{ if(!v) return; const t=v.currentTime;
+      // decide only once play() settles: the tap that unlocked may also have switched to the step that needs this clip
+      const p=v.play(); if(p&&p.then) p.then(()=>{ const keep=(v===vOurs&&step===1)||(v===pOurs&&step===2);
+        if(!keep){ v.pause(); if(v.id!=='t-ours'){ try{v.currentTime=t;}catch(e){} } } }).catch(()=>{}); }); }
+  ['pointerdown','keydown','touchstart'].forEach(k=>document.addEventListener(k,unlock,{capture:true,passive:true}));
+
+  function show(s){
+    step=s; t0=performance.now(); waiting=false; endAt=0;
+    words.forEach((w,i)=>w.classList.toggle('on',i===s));
+    segs.forEach((g,i)=>{ g.classList.toggle('on',i===s); setFill(i,i<s?1:0); });
+    single.classList.toggle('off',s===2); pair.classList.toggle('off',s!==2); dragPh=false;
+    // the MotionCue frame stays opaque underneath the reference frame, so Safari treats the clip as visible when it starts
+    frRef.classList.toggle('off',s===1); frOurs.classList.remove('loading'); setTap(frOurs,false); setTap(pairFr,false); clearTimeout(spinT);
+    ol.style.opacity=s===0?1:0; trail.style.opacity=full.style.opacity=pill.style.opacity=0;
+    vOurs.pause(); pOurs.pause();
+    place(frRef,0);
+    if(s===0){ trail.setAttribute('points',''); ol.style.strokeDasharray=`0 ${olLen+1}`; setDot(...olAt(0),true); }
+    if(s===1){ setDot(0,0,false); playOurs(); }
+    if(s===2){ setDot(0,0,false); pOurs.playbackRate=1; start(pOurs,pairFr); }
+  }
+  function tick(now){
+    requestAnimationFrame(tick); if(!visible||step<0) return;
+    const e=now-t0;
+    if(step===0){
+      if(e<CUT+GAP){ // cut: trace the outline quickly
+        const p=Math.min(1,e/CUT);
+        ol.style.strokeDasharray=p>=1?'none':`${p*olLen} ${olLen+1}`;
+        const [x,y]=olAt(p*olLen); setDot(x,y,p<1);
+      } else { // drag: the reference at a few times its speed, timer driven so it never waits on a download
+        if(!dragPh){ dragPh=true; ol.style.opacity=0; trail.style.opacity=full.style.opacity=pill.style.opacity=1; }
+        const f=Math.min(N-1,(e-CUT-GAP)/1000*FPS*DRAG_RATE);
+        const [x,y]=place(frRef,f);
+        trail.setAttribute('points',ptsStr(D.track.slice(0,Math.floor(f)+1).concat([[x,y]])));
+        setDot(x+OX,y+OY,true);
+      }
+      setFill(0,e/LEN[0]); if(e>LEN[0]) show(1);
+    } else if(step===1){
+      if(waiting){ setFill(1,0); return; }
+      const c=vOurs.currentTime, done=vOurs.ended||c>=DUR-0.07;
+      if(done&&!endAt) endAt=now;
+      setFill(1,done?0.9+0.1*Math.min(1,(now-endAt)/HOLD):0.9*c/DUR);
+      if(done&&now-endAt>HOLD) show(2);
+    } else if(step===2){
+      place(pair,Math.min(N-1,pOurs.currentTime*FPS));
+      if(pOurs.paused){ setFill(2,0); return; }
+      setFill(2,e/LEN[2]); if(e>LEN[2]) show(0);
+    }
+  }
+  segs.forEach((g,i)=>g.addEventListener('click',()=>show(i)));
+  // start from the first step whenever the animation scrolls into view, and pause it when it leaves
+  const io=new IntersectionObserver(es=>es.forEach(en=>{
+    if(en.isIntersecting){ visible=true; show(reduce?2:0); }
+    else { visible=false; vOurs.pause(); pOurs.pause(); } }),{threshold:.5});
+  visible=false;
+  show(reduce?2:0);
+  io.observe(I);
+  [vOurs,pOurs,document.getElementById('t-ours')].forEach(v=>v&&prime(v));
+  requestAnimationFrame(tick);
+
+  /* ---------------- try it ---------------- */
+  const svg=document.getElementById('try-svg'); if(!svg) return;
+  const tOurs=document.getElementById('t-ours');
+  const hg=document.getElementById('handle'), tTrail=document.getElementById('try-trail'), tFull=document.getElementById('try-full');
+  const slider=document.getElementById('try-range'), tCur=document.getElementById('try-cur');
+  const touched=()=>{ if(tCur){ tCur.classList.remove('hint'); tCur.classList.add('gone'); } };
+  tFull.setAttribute('points',ptsStr(D.track));
+  let f=0, dragging=false;
+  let pend=null;
+  function seek(t){ if(tOurs.seeking){ pend=t; return; } try{ tOurs.currentTime=t; }catch(e){} }
+  tOurs.pause(); tOurs.addEventListener('seeked',()=>{ if(pend!==null){ const t=pend; pend=null; tOurs.currentTime=t; } });
+  function setF(nf){
+    f=Math.max(0,Math.min(N-1,nf));
+    const [x,y]=place(svg,f); hg.setAttribute('transform',`translate(${x+OX} ${y+OY})`);
+    tTrail.setAttribute('points',ptsStr(D.track.slice(0,Math.floor(f)+1).concat([[x,y]])));
+    seek(Math.min(DUR-0.02,(f+0.5)/FPS));
+    slider.value=String(Math.round(f*10)/10); slider.style.setProperty('--p',(f/(N-1)*100).toFixed(2)+'%');
+  }
+  function toLocal(ev){ const p=svg.createSVGPoint(); p.x=ev.clientX; p.y=ev.clientY; return p.matrixTransform(svg.getScreenCTM().inverse()); }
+  function nearest(px,py,lo,hi){
+    let best=1e18,bf=f;
+    for(let i=lo;i<hi;i++){ const a=D.track[i],b=D.track[i+1]; const dx=b[0]-a[0],dy=b[1]-a[1]; const L=dx*dx+dy*dy||1;
+      let u=((px-a[0])*dx+(py-a[1])*dy)/L; u=Math.max(0,Math.min(1,u)); const cx=a[0]+u*dx,cy=a[1]+u*dy, d=(px-cx)**2+(py-cy)**2;
+      if(d<best){best=d;bf=i+u;} }
+    return [bf,best];
+  }
+  svg.addEventListener('pointerdown',ev=>{
+    const p=toLocal(ev); p.x-=OX; p.y-=OY; const [x,y]=at(D.track,f);
+    let nf=f; if(Math.hypot(p.x-x,p.y-y)>60){ nf=nearest(p.x,p.y,0,N-1)[0]; }
+    dragging=true; touched(); svg.classList.add('drag'); svg.classList.remove('idle'); svg.setPointerCapture(ev.pointerId); setF(nf);
+  });
+  svg.addEventListener('pointermove',ev=>{
+    if(!dragging) return; const p=toLocal(ev); p.x-=OX; p.y-=OY;
+    // follow the path continuously so the handle does not jump across the loop
+    const lo=Math.max(0,Math.floor(f)-6), hi=Math.min(N-1,Math.ceil(f)+6);
+    setF(nearest(p.x,p.y,lo,hi)[0]);
+  });
+  const end=()=>{dragging=false; svg.classList.remove('drag');};
+  svg.addEventListener('pointerup',end); svg.addEventListener('pointercancel',end);
+  slider.max=String(N-1); slider.addEventListener('input',()=>{ touched(); svg.classList.remove('idle'); setF(parseFloat(slider.value)); });
+  setF(0);
+})();
+</script></body></html>
